@@ -87,11 +87,11 @@ There was a need for a data-driven approach to analyze applicant profiles, extra
 ## 📚 What I Learned
 - How to translate complex analytics into **simple, actionable business recommendations**.
 - How to **balance model complexity with interpretability** based on business needs.
-- How to **quantify risk and financial impact** from predictive data models.https://codebasics.io/portfolio/DEV-DESAI
+- How to **quantify risk and financial impact** from predictive data models.
 
 ---
 
 ## 📫 Let's Connect!
 I'm passionate about using data to solve real-world business problems!  
-Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/dev-desai-/) or check out my other analytics projects!
+Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/dev-desai-/) or check out my other analytics projects!(https://codebasics.io/portfolio/DEV-DESAI)
 
