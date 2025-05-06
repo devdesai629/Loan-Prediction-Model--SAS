@@ -1,97 +1,106 @@
-# Loan-Prediction-Model--SAS
+# 🤖 Loan Default Prediction – SAS Analytics Project
 
-# Loan Default Prediction and Business Risk Analysis
-
-## 🧩 Problem
-Banks often experience significant financial losses due to loan defaults.  
-There was a need for a data-driven approach to analyze applicant profiles, extract key predictors of default risk, and support smarter, risk-aware lending decisions.
+## 📘 Overview  
+This project explores the factors that drive **loan defaults** using advanced analytical modeling in **SAS Enterprise Miner**. Through statistical exploration, decision trees, regression, and neural networks, we identify the key predictors and develop robust classification models to help financial institutions mitigate default risk and enhance lending strategies.
 
 ---
 
-## 🎯 Why This Project
-- To enable **data-backed loan approvals** by identifying high-risk applicants early.  
-- To support **credit risk teams** with actionable insights that reduce default rates.  
-- To practice solving **real-world financial analysis problems** using data exploration, statistical modeling, and predictive analytics.
+## 📊 Dataset  
+- **Name**: Loan Default Dataset  
+- **Observations**: Consumer-level loan data with features including income, loan amount, interest rate, employment history, credit score, DTI ratio, marital status, education, and more  
+- **Target Variable**: `Default` (1 = Defaulted, 0 = Non-default)
 
 ---
 
-## 📊 Dataset
-- **Source**: Loan Default Dataset (hypothetical for academic project)  
-- **Size**: 10,000+ loan applications  
-- **Features**: Applicant demographics, financial details, credit history, employment status, loan purpose, loan amount, interest rate.
+## 🧠 Goals  
+- Predict likelihood of loan default using multiple modeling techniques  
+- Identify and rank the most influential features affecting default risk  
+- Build business recommendations for credit risk management  
 
 ---
 
-## 🛠️ Tools and Technologies
+## 🔍 Key Insights from Statistical Exploration  
+- **Higher Interest Rates** → Significantly more defaults (Default avg: 15.88% vs Non-default: 13.19%)  
+- **Lower Income** and **higher Loan Amounts** → Strong indicators of default  
+- **Shorter Employment Duration** and **Higher DTI Ratios** → Increase default probability  
+- **Younger Age** groups show marginally higher default rates  
+- **Credit Scores** are lower for defaulters, but effect size is small  
+- **Loan Term** showed no significant predictive difference (uniform mean = 36 months)
+
+---
+
+## 🌲 Decision Tree Modeling  
+- Created 3 models (ASE Tree, MAX Tree, MIS Tree)  
+- **Best Performing Model**: **ASE Tree**  
+  - **Validation ASE**: 0.09496  
+  - Balanced complexity (49 leaves) and accuracy  
+- **Insights from Leaves**:  
+  - **Low risk group**: Age ≥ 39.5, interest rate < 12.9%, 46+ months employed, has dependents → **97.76% non-default**  
+  - **High risk group**: Age < 39.5, interest > 15.04%, income < 35k, loan > 152k → **50.49% default**
+
+---
+
+## 📉 Regression Modeling  
+- Built **4 regression models**: Full, Forward, Backward, Stepwise  
+- **Best Model Chosen**: **Raw Forward Regression** (based on ASE and interpretability)
+
+### 📌 Top Predictors (based on Wald Chi-Square):
+- Age  
+- Interest Rate  
+- Income  
+- DTI Ratio  
+- Credit Score  
+- Months Employed  
+- Employment Type  
+- Co-signer  
+- Dependents  
+- Education  
+
+### 🎯 Odds Ratio Highlights:
+- **Every 1% increase in DTI** → **+36.6% odds of default**  
+- **Full-time employment** reduces odds by 36.9% vs unemployed  
+- **Having dependents** and **no co-signer** both increase default odds by ~30%  
+- **Older age** → 3.9% decrease in default odds per year
+
+---
+
+## 🧠 Neural Networks  
+- Created 9 models (2H to 8H hidden layers)  
+- All models **converged successfully**, except 5H (did not converge)  
+- **Best Performing Model**: **Raw NN 2H**  
+  - **ROC Index**: 0.755 (highest)  
+  - **ASE**: 0.09105 (lowest)  
+  - **Misclassification Rate**: ~11.3%  
+
+### 🧾 Model Comparison Summary:
+| Model            | ROC Index | ASE     | Notes                               |
+|------------------|-----------|---------|-------------------------------------|
+| Raw NN 2H        | 0.755     | 0.09105 | Best accuracy, low complexity       |
+| Forward Reg      | 0.746     | 0.0924  | Interpretable, good baseline model  |
+| ASE Tree         | 0.715     | 0.09496 | Interpretable with rule-based output|
+| Misclass Tree    | 0.642     | 0.09825 | Underfits data                      |
+| Raw NN 5H        | —         | —       | Did not converge                    |
+
+---
+
+## 📌 Business Recommendations  
+- **Risk Profiling**: Use age, interest rate, DTI, income, and employment type to build a credit risk score  
+- **Stricter Thresholds**: On high DTI and interest loans  
+- **Require Co-signers**: For young or low-income applicants  
+- **Leverage Neural Networks**: For high-volume automated loan approvals  
+- **Use Logistic Regression**: In contexts needing high transparency (e.g., regulatory compliance)
+
+---
+
+## 🛠 Tools Used  
 - **SAS Enterprise Miner**  
-- **Techniques:**  
-  - Data Cleaning and Feature Engineering  
-  - Exploratory Data Analysis (EDA)  
-  - Decision Trees  
-  - Logistic Regression (Full, Forward, Backward, Stepwise)  
-  - Neural Networks (2 to 8 hidden units)  
-- **Model Evaluation Metrics:** ROC Index, Average Squared Error (ASE), Misclassification Rate
+- **SAS Statistical Explorer, Regression, Decision Tree, Neural Network Nodes**  
+- **Model Comparison Node** for final selection
 
 ---
 
-## 🔍 How I Approached It
-
-### 1. Data Preparation:
-- Partitioned data into **50% Training** and **50% Validation** sets.
-- Created **dummy variables** and grouped similar categories to optimize model simplicity and interpretability.
-- Ensured clean dataset (no missing values, minimal skewness).
-
-### 2. Exploratory Data Analysis (EDA):
-- **Defaults had 18.7% higher average interest rates** compared to non-defaults.  
-- **Defaulters earned 14% less income** than non-defaulters on average.  
-- **Higher Debt-to-Income Ratios** correlated with a **15% increased likelihood of default**.
-
-### 3. Model Building:
-- **Decision Tree Model:**
-  - Achieved **Validation ASE = 0.09496** with 49 leaves.
-  - Extracted clear rules (e.g., customers aged ≥ 39.5 with stable jobs were 97.76% likely to repay).
-- **Logistic Regression (Forward Selection):**
-  - Identified significant predictors (Interest Rate, DTI Ratio, Income, Employment Type).
-  - **Validation ASE = 0.0924**, **ROC Score = 0.746**.
-- **Neural Networks (2 Hidden Layers):**
-  - Achieved the highest ROC score of **0.755**.
-  - **Validation ASE = 0.0910** — best predictive accuracy among models.
-
-### 4. Model Evaluation:
-| Model                | ROC Score | ASE Value  | Notes                          |
-|----------------------|-----------|------------|--------------------------------|
-| Neural Network (2H)   | 0.755     | 0.0910     | Best performance overall       |
-| Logistic Regression   | 0.746     | 0.0924     | Best interpretability          |
-| Decision Tree (ASE)   | 0.715     | 0.0949     | Easy to explain decision rules |
+## 🏁 Final Takeaway  
+The combination of models provides both accuracy and interpretability. While the **Raw NN 2H model** is the most accurate, the **Forward Regression model** remains critical for stakeholder explanation. Together, they offer a balanced solution for real-time loan screening and long-term credit policy improvements.
 
 ---
-
-## 📈 Key Insights & Business Recommendations
-- Applicants with **Interest Rates above 15%** and **DTI Ratios above 0.5** are **23% more likely** to default.
-- **Income below $75,000** significantly increases default probability.
-- **Employment stability** (months employed > 46) decreases default risk by **18%**.
-- **Policy Changes Proposed:**
-  - Implement stricter DTI thresholds during loan approval.
-  - Offer credit counseling for high-risk segments (younger borrowers, low-income groups).
-  - Prioritize applications from individuals with longer employment history.
-
----
-
-## 🚀 Final Results
-- Built a predictive system capable of **classifying loan applicants with 75.5% accuracy**.
-- Delivered a **12% potential reduction in default rates** based on actionable risk stratification.
-- Developed both **interpretable models** (for business stakeholders) and **high-accuracy models** (for automated systems).
-
----
-
-## 📚 What I Learned
-- How to translate complex analytics into **simple, actionable business recommendations**.
-- How to **balance model complexity with interpretability** based on business needs.
-- How to **quantify risk and financial impact** from predictive data models.
-
----
-
-## 📫 Let's Connect!
-I'm passionate about using data to solve real-world business problems!  
-Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/dev-desai-/) or check out my other analytics projects!(https://codebasics.io/portfolio/DEV-DESAI)
 
